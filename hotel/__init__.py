@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .di import injector
+from hotel.ranking.service import RankingService
+
 app = FastAPI()
 
 app.add_middleware(
@@ -16,3 +19,7 @@ app.add_middleware(
 async def ping():
     return {"message": "pong"}
 
+
+@app.on_event("startup")
+async def startup():
+    injector.get(RankingService)
