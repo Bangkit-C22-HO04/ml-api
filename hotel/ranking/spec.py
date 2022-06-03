@@ -1,13 +1,13 @@
-from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
+from pydantic import BaseModel
 
 
-@dataclass
-class GetRankingSpec:
-    gender: int
-    travel_purpose: str
+class GetRankingSpec(BaseModel):
+    hotel_ids: List[int]
+    device: bool
+    travel_purpose: Optional[str] = None
+    gender: Optional[int] = None
 
 
-@dataclass
-class GetRankingResult:
+class GetRankingResult(BaseModel):
     hotel_ids: List[int]

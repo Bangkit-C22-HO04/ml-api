@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .di import injector
 from hotel.ranking.service import RankingService
+from hotel.ranking.spec import GetRankingSpec, GetRankingResult
 
 app = FastAPI()
 
@@ -14,12 +15,19 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-
-@app.get("/ping")
-async def ping():
-    return {"message": "pong"}
+ranking_service = injector.get(RankingService)
 
 
 @app.on_event("startup")
-async def startup():
+def startup():
     injector.get(RankingService)
+
+
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
+
+
+@app.post("/generate", response_model=GetRankingResult)
+def generate(spec: GetRankingSpec):
+    return ranking_service.generate(spec)
