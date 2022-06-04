@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
     steps:
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
