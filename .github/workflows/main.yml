@@ -11,26 +11,22 @@ env:
   REGION: asia-southeast1
 
 jobs:
-  build-and-push-to-gcr:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@master
-      - uses: RafikFarhad/push-to-gcr-github-action@v4
-        with:
-          gcloud_service_key: ${{ secrets.GCP_SA_KEY }}
-          registry: gcr.io
-          project_id: ${{ env.PROJECT_ID }}
-          image_name: ${{ env.SERVICE }}
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-push-to-gcr
     steps:
+    - uses: actions/checkout@v2
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: 'Build and Deploy to GCR'
+      uses: RafikFarhad/push-to-gcr-github-action@v4
+      with:
+        gcloud_service_key: ${{ secrets.GCP_SA_KEY }}
+        registry: gcr.io
+        project_id: ${{ env.PROJECT_ID }}
+        image_name: ${{ env.SERVICE }}
 
     - name: 'Deploy to Cloud Run'
       uses: 'google-github-actions/deploy-cloudrun@v0'
