@@ -8,7 +8,7 @@ on:
 env:
   SERVICE: ml-api
   PROJECT_ID: bangkit-c22-ho04
-  REGION: ap-southeast-1
+  REGION: asia-southeast1
 
 jobs:
   deploy:
