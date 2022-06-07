@@ -9,4 +9,6 @@ class RankingService:
         self.accessor = accessor
 
     def generate(self, spec: GetRankingSpec) -> GetRankingResult:
-        pass
+        result = self.accessor.generate(spec)
+
+        return result

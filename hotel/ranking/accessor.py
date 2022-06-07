@@ -14,7 +14,9 @@ class RankingAccessor:
         Model generate ranking from
         '''
         inputs = self._get_inputs(spec)
-        return spec.hotel_ids
+        return GetRankingResult(
+            hotel_ids=spec.hotel_ids
+        )
 
     def _get_inputs(self, spec: GetRankingSpec) -> tf.Tensor:
         return {}
