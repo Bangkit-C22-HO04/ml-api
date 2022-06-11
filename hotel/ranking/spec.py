@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class GetRankingSpec(BaseModel):
-    hotel_ids: List[int]
+    hotel_ids: List[str]
     device: bool
     travel_purpose: Optional[str] = None
     gender: Optional[int] = None
