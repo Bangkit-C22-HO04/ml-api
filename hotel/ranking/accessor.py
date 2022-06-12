@@ -27,9 +27,16 @@ class RankingAccessor:
         return GetRankingResult(hotel_ids=list(hotels.numpy().tolist())[0])
 
     def _construct_inputs(self, spec: GetRankingSpec) -> Dict[str, tf.Tensor]:
+        size_hotel = len(spec.hotel_ids)
         inputs = {
             "travel_purpose": tf.expand_dims(
-                tf.repeat(spec.travel_purpose, repeats=len(spec.hotel_ids)), axis=0
+                tf.repeat(spec.travel_purpose, repeats=size_hotel), axis=0
+            ),
+            "desktop": tf.expand_dims(
+                tf.repeat(spec.device, repeats=size_hotel), axis=0
+            ),
+            "gender": tf.expand_dims(
+                tf.repeat(spec.gender, repeats=size_hotel), axis=0
             ),
             "hotel_id": tf.expand_dims(spec.hotel_ids, axis=0),
         }
